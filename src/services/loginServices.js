@@ -1,8 +1,8 @@
 const { User } = require('../database/models');
 
-async function xablau() {
-  const bla = await User.findAll();
-  return bla;
+async function findUserByEmail({ email, password }) {
+  const result = await User.findOne({ where: { email, password } });
+  return result;
 }
 
-xablau().then((asd) => console.log(asd));
+module.exports = { findUserByEmail };  
