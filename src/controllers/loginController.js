@@ -6,7 +6,7 @@ async function login({ email, password }) {
     return { code: 400, message: { message: 'Some required fields are missing' } };
   }
 
-  const verifyUserExistence = await loginService.findUserByEmail({ email, password });
+  const verifyUserExistence = await loginService.findUserByEmailAndPassword({ email, password });
   if (verifyUserExistence === null) {
     return { code: 400, message: { message: 'Invalid fields' } };
   }
