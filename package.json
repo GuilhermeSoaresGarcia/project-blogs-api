@@ -26,7 +26,7 @@
     "seed": "npx sequelize-cli db:seed:all",
     "pretest": "(npm run kill:test && NODE_ENV=test npm run start:test) &",
     "test": "npx -y wait-on -t 300000 http://localhost:3030 && NODE_ENV=test jest -i --verbose --forceExit",
-    "posttest": "npm run kill:test",
+    "posttest": "set +m npm run kill:test set -m",
     "test-coverage": "jest -i --verbose --forceExit --coverage",
     "debug": "nodemon .",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
