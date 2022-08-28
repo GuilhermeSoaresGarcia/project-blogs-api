@@ -6,13 +6,21 @@ async function findUserByEmail({ email }) {
 }
 
 async function addNewUser({ displayName, email, password, image }) {
-  const result = await User.create({ displayName, email, password, image });  
+  const result = await User.create({ displayName, email, password, image });
   return result.dataValues;
 }
 
 async function getAll() {
-  const result = await User.findAll();  
-  return result;
+  const allUsers = await User.findAll();
+  const removePasswordField = allUsers.map((user) => (
+    {
+      id: user.id,
+      displayName: user.displayName,
+      email: user.email,
+      image: user.image,
+    }
+  ));
+  return removePasswordField;
 }
 
 module.exports = {

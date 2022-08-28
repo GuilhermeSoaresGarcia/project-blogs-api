@@ -21,17 +21,25 @@ async function newUser({ displayName, email, password, image }) {
   const createdUser = await userService.addNewUser({ displayName, email, password, image });
   const result = await token.generateToken(
     {
-      email: createdUser.email,      
+      email: createdUser.email,
     },
   );
   return { code: 201, message: { token: result } };
 }
 
-async function getAll() {  
-  // if (!token) return { code: 401, message: 'Token not found' };
-  const result = await userService.getAll();
-  // if (tokenexpirado) return { code: 401, message: 'Expired or invalid token' };
-  return { code: 200, message: result };
+async function getAll(authorization) {
+  try {
+    await token.verifyJWT(authorization);
+    const result = await userService.getAll();
+    return { code: 200, message: result };
+  } catch (err) {    
+    if (err.message === 'jwt malformed') {
+      return { code: 401, message: { message: 'Expired or invalid token' } };
+    }
+    if (err.message === 'jwt must be provided') {
+      return { code: 401, message: { message: 'Token not found' } };
+    }
+  }
 }
 
 module.exports = { newUser, getAll };

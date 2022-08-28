@@ -14,4 +14,9 @@ async function generateToken({ email }) {
   return token;
 }
 
-module.exports = { generateToken };
+async function verifyJWT(token) {
+  const result = jwt.verify(token, secret);
+  return result;
+}
+
+module.exports = { generateToken, verifyJWT };

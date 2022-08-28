@@ -3,6 +3,7 @@ require('express-async-errors');
 
 const login = require('./controllers/loginController');
 const user = require('./controllers/userController');
+
 // ...
 
 const app = express();
@@ -20,6 +21,12 @@ app.post('/login', async (req, res) => {
 app.post('/user', async (req, res) => {
   const { displayName, email, password, image } = req.body;
   const { code, message } = await user.newUser({ displayName, email, password, image });
+  return res.status(code).json(message);
+});
+
+app.get('/user', async (req, res) => {
+  const { authorization } = req.headers;
+  const { code, message } = await user.getAll(authorization);
   return res.status(code).json(message);
 });
 
