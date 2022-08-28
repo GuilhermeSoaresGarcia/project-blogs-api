@@ -30,6 +30,13 @@ app.get('/user', async (req, res) => {
   return res.status(code).json(message);
 });
 
+app.get('/user/:id', async (req, res) => {
+  const { authorization } = req.headers;
+  const { id } = req.params;
+  const { code, message } = await user.getOne(authorization, id);
+  return res.status(code).json(message);
+});
+
 // ...
 
 // É importante exportar a constante `app`,
