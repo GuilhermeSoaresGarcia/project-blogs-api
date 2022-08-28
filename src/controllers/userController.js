@@ -28,18 +28,26 @@ async function newUser({ displayName, email, password, image }) {
 }
 
 async function getAll(authorization) {
-  try {
-    await token.verifyJWT(authorization);
-    const result = await userService.getAll();
-    return { code: 200, message: result };
-  } catch (err) {    
-    if (err.message === 'jwt malformed') {
-      return { code: 401, message: { message: 'Expired or invalid token' } };
-    }
-    if (err.message === 'jwt must be provided') {
-      return { code: 401, message: { message: 'Token not found' } };
-    }
+  const tokenVerification = await token.verifyToken(authorization);
+
+  if (tokenVerification === 'jwt malformed') {
+    return { code: 401, message: { message: 'Expired or invalid token' } };
   }
+
+  if (tokenVerification === 'jwt must be provided') {
+    return { code: 401, message: { message: 'Token not found' } };
+  }
+
+  if (tokenVerification === 'invalid token') {
+    return { code: 401, message: { message: 'Invalid token' } };
+  }
+  
+  if (typeof tokenVerification !== 'object') {
+    return { code: 418, message: { message: 'I\'m a teapot' } };
+  }
+
+  const result = await userService.getAll();
+  return { code: 200, message: result };
 }
 
 module.exports = { newUser, getAll };

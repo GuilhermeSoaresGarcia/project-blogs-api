@@ -14,9 +14,12 @@ async function generateToken({ email }) {
   return token;
 }
 
-async function verifyJWT(token) {
-  const result = jwt.verify(token, secret);
-  return result;
+async function verifyToken(token) {
+  try {
+    return jwt.verify(token, secret);
+  } catch (err) {
+    return err.message;
+  }
 }
 
-module.exports = { generateToken, verifyJWT };
+module.exports = { generateToken, verifyToken };
