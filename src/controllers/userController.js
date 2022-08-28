@@ -1,5 +1,5 @@
 const token = require('../middleware/token');
-const loginService = require('../services/userServices');
+const userService = require('../services/userServices');
 
 // MENSAGENS DAS VALIDAÇÔES
 const validNameLength = '"displayName" length must be at least 8 characters long';
@@ -15,17 +15,23 @@ async function newUser({ displayName, email, password, image }) {
 
   if (password.length < 6) return { code: 400, message: { message: validPasswordLength } };
 
-  const verifyUserExistence = await loginService.findUserByEmail({ email });
+  const verifyUserExistence = await userService.findUserByEmail({ email });
   if (verifyUserExistence != null) return { code: 409, message: { message: validUser } };
 
-  const createdUser = await loginService.addNewUser({ displayName, email, password, image });
+  const createdUser = await userService.addNewUser({ displayName, email, password, image });
   const result = await token.generateToken(
     {
-      email: createdUser.email,
-      password: createdUser.password,
+      email: createdUser.email,      
     },
   );
   return { code: 201, message: { token: result } };
 }
 
-module.exports = { newUser };
+async function getAll() {  
+  // if (!token) return { code: 401, message: 'Token not found' };
+  const result = await userService.getAll();
+  // if (tokenexpirado) return { code: 401, message: 'Expired or invalid token' };
+  return { code: 200, message: result };
+}
+
+module.exports = { newUser, getAll };

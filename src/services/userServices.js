@@ -10,7 +10,13 @@ async function addNewUser({ displayName, email, password, image }) {
   return result.dataValues;
 }
 
+async function getAll() {
+  const result = await User.findAll();  
+  return result;
+}
+
 module.exports = {
   findUserByEmail,
   addNewUser,
+  getAll,
 };  
