@@ -7,19 +7,24 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     title: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     content: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     userId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     published: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      allowNull: false,
     },
     updated: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      allowNull: false,
     },
   },
     { timestamps: false })
