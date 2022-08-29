@@ -14,12 +14,17 @@ async function generateToken({ email }) {
   return token;
 }
 
-async function verifyToken(token) {
-  try {
-    return jwt.verify(token, secret);
-  } catch (err) {
-    return err.message;
-  }
-}
+const validateToken = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ message: 'Token not found' });
 
-module.exports = { generateToken, verifyToken };
+  try {
+    const user = jwt.verify(token, secret);
+    req.user = user;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Expired or invalid token' });
+  }  
+};
+
+module.exports = { generateToken, validateToken };

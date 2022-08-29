@@ -3,6 +3,8 @@ require('express-async-errors');
 
 const login = require('./controllers/loginController');
 const user = require('./controllers/userController');
+const category = require('./controllers/categoryController');
+const token = require('./middleware/token');
 
 // ...
 
@@ -24,16 +26,21 @@ app.post('/user', async (req, res) => {
   return res.status(code).json(message);
 });
 
-app.get('/user', async (req, res) => {
-  const { authorization } = req.headers;
-  const { code, message } = await user.getAll(authorization);
+app.get('/user', token.validateToken, async (req, res) => {
+  const { code, message } = await user.getAll();
   return res.status(code).json(message);
 });
 
-app.get('/user/:id', async (req, res) => {
-  const { authorization } = req.headers;
+app.get('/user/:id', token.validateToken, async (req, res) => {
   const { id } = req.params;
-  const { code, message } = await user.getOne(authorization, id);
+  const { code, message } = await user.getOne(id);
+  return res.status(code).json(message);
+});
+
+// ROTA CATEGORIES
+app.post('/categories', token.validateToken, async (req, res) => {
+  const { name } = req.body;
+  const { code, message } = await category.newCategory(name);
   return res.status(code).json(message);
 });
 

@@ -27,44 +27,12 @@ async function newUser({ displayName, email, password, image }) {
   return { code: 201, message: { token: result } };
 }
 
-async function getAll(authorization) {
-  const tokenVerification = await token.verifyToken(authorization);
-
-  if (tokenVerification === 'jwt malformed') {
-    return { code: 401, message: { message: 'Expired or invalid token' } };
-  }
-
-  if (tokenVerification === 'jwt must be provided') {
-    return { code: 401, message: { message: 'Token not found' } };
-  }
-
-  if (tokenVerification === 'invalid token') {
-    return { code: 401, message: { message: 'Invalid token' } };
-  }
-
-  if (typeof tokenVerification !== 'object') {
-    return { code: 418, message: { message: 'I\'m a teapot' } };
-  }
-
+async function getAll() {
   const result = await userService.getAll();
   return { code: 200, message: result };
 }
 
-async function getOne(authorization, id) {
-  const tokenVerification = await token.verifyToken(authorization);
-
-  if (tokenVerification === 'jwt malformed') {
-    return { code: 401, message: { message: 'Expired or invalid token' } };
-  }
-
-  if (tokenVerification === 'jwt must be provided') {
-    return { code: 401, message: { message: 'Token not found' } };
-  }
-
-  if (tokenVerification === 'invalid token') {
-    return { code: 401, message: { message: 'Invalid token' } };
-  }
-
+async function getOne(id) {
   const result = await userService.getOne(id);  
   if (!result) return { code: 404, message: { message: 'User does not exist' } };
   return { code: 200, message: result };
