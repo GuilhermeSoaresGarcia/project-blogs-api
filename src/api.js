@@ -26,7 +26,7 @@ app.post('/user', async (req, res) => {
   return res.status(code).json(message);
 });
 
-app.get('/user', token.validateToken, async (req, res) => {
+app.get('/user', token.validateToken, async (_req, res) => {
   const { code, message } = await user.getAll();
   return res.status(code).json(message);
 });
@@ -41,6 +41,11 @@ app.get('/user/:id', token.validateToken, async (req, res) => {
 app.post('/categories', token.validateToken, async (req, res) => {
   const { name } = req.body;
   const { code, message } = await category.newCategory(name);
+  return res.status(code).json(message);
+});
+
+app.get('/categories', token.validateToken, async (_req, res) => {
+  const { code, message } = await category.getAll();
   return res.status(code).json(message);
 });
 
