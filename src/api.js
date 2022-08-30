@@ -4,6 +4,7 @@ require('express-async-errors');
 const login = require('./controllers/loginController');
 const user = require('./controllers/userController');
 const category = require('./controllers/categoryController');
+const post = require('./controllers/postController');
 const token = require('./middleware/token');
 
 // ...
@@ -46,6 +47,12 @@ app.post('/categories', token.validateToken, async (req, res) => {
 
 app.get('/categories', token.validateToken, async (_req, res) => {
   const { code, message } = await category.getAll();
+  return res.status(code).json(message);
+});
+
+// ROTA POST
+app.get('/post', token.validateToken, async (_req, res) => {
+  const { code, message } = await post.getAll();
   return res.status(code).json(message);
 });
 
