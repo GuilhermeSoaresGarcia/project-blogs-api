@@ -20,6 +20,26 @@ async function getAll() {
   return result;
 }
 
+async function getOne(id) {  
+  const result = await BlogPost.findByPk(id,
+    {
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: { exclude: 'password' },
+        },
+        {
+          model: Category,
+          as: 'categories',
+          through: { attributes: [] },
+        },
+      ],
+    });  
+  return result;
+}
+
 module.exports = {
   getAll,
+  getOne,
 };  

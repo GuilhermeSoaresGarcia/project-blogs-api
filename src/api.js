@@ -56,6 +56,12 @@ app.get('/post', token.validateToken, async (_req, res) => {
   return res.status(code).json(message);
 });
 
+app.get('/post/:id', token.validateToken, async (req, res) => {
+  const { id } = req.params;
+  const { code, message } = await post.getOne(id);
+  return res.status(code).json(message);
+});
+
 // ...
 
 // É importante exportar a constante `app`,

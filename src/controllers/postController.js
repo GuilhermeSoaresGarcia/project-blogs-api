@@ -5,4 +5,10 @@ async function getAll() {
   return { code: 200, message: result };
 }
 
-module.exports = { getAll };
+async function getOne(id) {
+  const result = await postService.getOne(id);
+  if (result === null) return { code: 404, message: { message: 'Post does not exist' } };
+  return { code: 200, message: result };
+}
+
+module.exports = { getAll, getOne };
