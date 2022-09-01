@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 const { BlogPost, Category, User, PostCategory, sequelize } = require('../database/models');
 
 async function getAll() {
@@ -45,42 +44,22 @@ async function newPost(email, title, content, categoryIds) {
   const t = await sequelize.transaction();
   try {
     const createPost = await BlogPost.create(
-      {
-        userId: id,
-        title,
-        content,
-        categoryIds,
-        published: Date.now(),
-        updated: Date.now(),
-      },
+      { userId: id, title, content, categoryIds, published: Date.now(), updated: Date.now() },
       { transaction: t },
     );
 
-    // await PostCategory.create(
-    //   categoryIds.forEach((item) => ({
-    //     postId: createPost.id,
-    //     categoryId: item,
-    //   })), { transaction: t },
-// );
-
-    const postCategoryObj = categoryIds.map((item) => (
-      {
-        postId: createPost.id,
-        categoryId: item,
-      }
-    ));
-
-    postCategoryObj.forEach((item) =>
+    await Promise.all(categoryIds.map((catId) => (
       PostCategory.create(
-        { postId: item.postId, categoryId: item.categoryId },
-      ), { transaction: t });
+        { postId: createPost.id, categoryId: catId }, { transaction: t },
+      ))));
 
     t.commit();
+
     return createPost;
   } catch (err) {
     t.rollback();
-    console.log(err.message);
-  }
+    return { code: 404, message: err.message };
+}
 }
 
 module.exports = {
