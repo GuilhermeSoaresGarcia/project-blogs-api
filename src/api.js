@@ -51,6 +51,13 @@ app.get('/categories', token.validateToken, async (_req, res) => {
 });
 
 // ROTA POST
+app.post('/post', token.validateToken, async (req, res) => {
+  const { title, content, categoryIds } = req.body;
+  const { email } = req.user;
+  const { code, message } = await post.newPost(email, title, content, categoryIds);
+  return res.status(code).json(message);
+});
+
 app.get('/post', token.validateToken, async (_req, res) => {
   const { code, message } = await post.getAll();
   return res.status(code).json(message);
