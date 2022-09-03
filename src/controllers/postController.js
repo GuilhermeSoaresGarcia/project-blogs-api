@@ -28,4 +28,12 @@ async function newPost(email, title, content, categoryIds) {
   return { code: 201, message: result };
 }
 
-module.exports = { getAll, getOne, newPost };
+async function deletePost(id, email) {
+  const post = await postService.getOne(id);
+  if (!post) return { code: 404, message: { message: 'Post does not exist' } };
+  if (post.user.email !== email) return { code: 401, message: { message: 'Unauthorized user' } };
+  await postService.deletePost(id);
+  return { code: 204 };
+}
+
+module.exports = { getAll, getOne, newPost, deletePost };

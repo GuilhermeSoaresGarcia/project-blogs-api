@@ -62,8 +62,15 @@ async function newPost(email, title, content, categoryIds) {
 }
 }
 
+async function deletePost(id) {
+  const data = await BlogPost.findByPk(id);
+  const result = data.destroy();
+  return result;
+}
+
 module.exports = {
   getAll,
   getOne,
   newPost,
+  deletePost,
 };  
