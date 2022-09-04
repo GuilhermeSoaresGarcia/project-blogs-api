@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 const { BlogPost, Category, User, PostCategory, sequelize } = require('../database/models');
 
 async function getAll() {
@@ -59,13 +60,23 @@ async function newPost(email, title, content, categoryIds) {
   } catch (err) {
     t.rollback();
     return { code: 404, message: err.message };
-}
+  }
 }
 
 async function deletePost(id) {
   const data = await BlogPost.findByPk(id);
-  const result = data.destroy();
+  const result = await data.destroy();
   return result;
+}
+
+async function editPost(id, title, content) {
+  const data = await getOne(id);
+  await data.set({
+    title,
+    content,
+  });
+  const modifiedData = await data.save();
+  return modifiedData;
 }
 
 module.exports = {
@@ -73,4 +84,5 @@ module.exports = {
   getOne,
   newPost,
   deletePost,
+  editPost,
 };  

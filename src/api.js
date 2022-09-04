@@ -69,11 +69,13 @@ app.get('/post/:id', token.validateToken, async (req, res) => {
   return res.status(code).json(message);
 });
 
-// app.put('/post/:id', token.validateToken, async (req, res) => {
-//   const { id } = req.params;
-//   const { code, message } = await post.editPost(id);
-//   return res.status(code).json(message);
-// });
+app.put('/post/:id', token.validateToken, async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const { email } = req.user;
+  const { code, message } = await post.editPost(id, email, title, content);
+  return res.status(code).json(message);
+});
 
 app.delete('/post/:id', token.validateToken, async (req, res) => {
   const { id } = req.params;

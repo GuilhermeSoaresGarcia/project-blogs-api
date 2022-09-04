@@ -8,6 +8,7 @@ async function getAll() {
 
 async function getOne(id) {
   const result = await postService.getOne(id);
+  console.log(result.dataValues)
   if (result === null) return { code: 404, message: { message: 'Post does not exist' } };
   return { code: 200, message: result };
 }
@@ -36,4 +37,14 @@ async function deletePost(id, email) {
   return { code: 204 };
 }
 
-module.exports = { getAll, getOne, newPost, deletePost };
+async function editPost(id, email, title, content) {
+  const post = await postService.getOne(id);
+  if (post.user.email !== email) return { code: 401, message: { message: 'Unauthorized user' } };
+  if (!title || !content) {
+    return { code: 400, message: { message: 'Some required fields are missing' } };
+  }
+  const result = await postService.editPost(id, title, content);
+  return { code: 200, message: result };
+}
+
+module.exports = { getAll, getOne, newPost, deletePost, editPost };
