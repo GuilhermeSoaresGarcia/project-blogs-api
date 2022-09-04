@@ -8,7 +8,6 @@ async function getAll() {
 
 async function getOne(id) {
   const result = await postService.getOne(id);
-  console.log(result.dataValues)
   if (result === null) return { code: 404, message: { message: 'Post does not exist' } };
   return { code: 200, message: result };
 }
