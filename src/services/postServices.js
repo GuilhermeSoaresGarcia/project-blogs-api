@@ -1,4 +1,7 @@
-/* eslint-disable max-lines-per-function */
+const Sequelize = require('sequelize');
+
+const { Op } = Sequelize;
+
 const { BlogPost, Category, User, PostCategory, sequelize } = require('../database/models');
 
 async function getAll() {
@@ -79,10 +82,33 @@ async function editPost(id, title, content) {
   return modifiedData;
 }
 
+async function searchPost(q) { // Me baseei neste SO para entender o uso do like: https://stackoverflow.com/a/53972540/18172843
+  const result = await BlogPost.findAll(
+    {
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: { exclude: 'password' },
+      },
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+      ],
+      where:
+        { [Op.or]: { title: { [Op.like]: `%${q}%` }, content: { [Op.like]: `%${q}%` } } }, // Para o uso do "OR", me baseei neste SO: https://stackoverflow.com/a/31390257/18172843
+    },
+  );
+
+  return result;
+}
+
 module.exports = {
   getAll,
   getOne,
   newPost,
   deletePost,
   editPost,
+  searchPost,
 };  

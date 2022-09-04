@@ -46,4 +46,9 @@ async function editPost(id, email, title, content) {
   return { code: 200, message: result };
 }
 
-module.exports = { getAll, getOne, newPost, deletePost, editPost };
+async function searchPost(q) {
+  const result = await postService.searchPost(q);
+  return { code: 200, message: result };
+}
+
+module.exports = { getAll, getOne, newPost, deletePost, editPost, searchPost };
