@@ -38,6 +38,12 @@ app.get('/user/:id', token.validateToken, async (req, res) => {
   return res.status(code).json(message);
 });
 
+app.delete('/user/me', token.validateToken, async (req, res) => {
+  const { id } = req.user;
+  const { code, message } = await user.deleteMe(id);
+  return res.status(code).json(message);
+});
+
 // ROTA CATEGORIES
 app.post('/categories', token.validateToken, async (req, res) => {
   const { name } = req.body;

@@ -33,9 +33,14 @@ async function getAll() {
 }
 
 async function getOne(id) {
-  const result = await userService.getOne(id);  
+  const result = await userService.getOne(id);
   if (!result) return { code: 404, message: { message: 'User does not exist' } };
   return { code: 200, message: result };
 }
 
-module.exports = { newUser, getAll, getOne };
+async function deleteMe(id) {
+  await userService.deleteMe(id);
+  return { code: 204 };
+}
+
+module.exports = { newUser, getAll, getOne, deleteMe };
