@@ -9,7 +9,7 @@ Este projeto propunha o desenvolvimento de uma API RESTful utilizando para isso,
 
 > Fazer o fetching de uma API;
 
-> Utilizaão do JWT para a geração de token;
+> Utilização do JWT para a geração de token;
 
 > Utilização do Express;
 
