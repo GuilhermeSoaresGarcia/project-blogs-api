@@ -1,16 +1,32 @@
-# 🚧 README em construção 🚧
+# Blogs API Project
 
-<!-- Olá, Tryber!
+# Contexto
+Este projeto propunha o desenvolvimento de uma API RESTful utilizando para isso, principalmente, as bibliotecas JWT (para criação de token de autenticação), Express e o ORM Sequelize. Além disso, o projeto pedia a implementação utilizando a modularização através de camadas, a saber: controllers, services e models (essa última utilizando o Sequelize ao invés de queries SQL.)
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
+> Fixar os conceitos das camadas de controllers, services e models;
 
-É essencial que você preencha esse documento por conta própria, ok?
+> Compreender as restrições de design do REST;
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+> Fazer o fetching de uma API;
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
+> Utilizaão do JWT para a geração de token;
 
--->
+> Utilização do Express;
+
+> Utilização do Sequelize;
+
+## Tecnologias usadas
+
+> Desenvolvido usando: Bibliotecas JWT, Express e Sequelize e JavaScript (ES6).
+
+## Instalando dependências
+```
+npm install
+```
+
+## Executando aplicação
+```
+npm start
+```
+
+## Preview
